@@ -20,10 +20,12 @@ verifica_disco()
 {
     clear
     echo " -- INFORMAÇÕES DE CONSUMO DO DISCO -- "
+    echo " "
     echo "TAMANHO:    $(df -h --total | tail -n1 | awk '{print $2}')" 
     echo "USADO:      $(df -h --total | tail -n1 | awk '{print $3}')"
     echo "DISPONÍVEL: $(df -h --total | tail -n1 | awk '{print $4}')"
     echo "USADO(%):   $(df -h --total | tail -n1 | awk '{print $5}')"
+    echo " "
     echo " --------------------------------------"
 }
 
