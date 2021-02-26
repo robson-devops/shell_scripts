@@ -1,0 +1,70 @@
+                                       ---| IF_CASE_FOR_WHILE_UNTIL| ---
+
+------------------------------------------
+-|       TABELA DE PARÂMETROS            |-
+------------------------------------------
+-eq --> Equal
+-ne --> Not equal
+-gt --> Greater than 
+-lt --> Less than
+-o  --> Or
+-d  --> If file is directory type
+-e  --> If exist
+-z  --> If the file is empty 
+-f  --> If the file is not empty  
+-o  --> If the user is the owner
+-r  --> If the file can be read
+-w  --> If the file can be change
+-x  --> If the file can be run 
+-------------------------------------------
+
+-| IF:
+------------------------------------------------
+if [ -e $linux ]
+then
+  echo 'The $linux exist.'
+else
+  echo 'The $linux not exist.'
+fi
+------------------------------------------------
+
+-| CASE:
+------------------------------------------------
+case $1 in
+  parameter) command1 ; command2 ;;
+  parameter) command3 ; command4 ;;
+  *) echo "Input the valid parameter" ;;
+esac
+------------------------------------------------
+
+-| FOR:
+------------------------------------------------
+for i in *
+do
+ cp $i $i.backup
+ mv $i.backup /usr/backup
+done
+------------------------------------------------
+
+-| WHILE:
+------------------------------------------------
+VAR="value"
+while [ $VAR = "value" ]; do
+  command1
+  command2
+done
+------------------------------------------------
+
+-| UNTIL:
+------------------------------------------------
+VAR=1
+COUNT=0
+until [ $VAR = "0" ]; do
+  command1
+  command2
+  if [ $COUNT = 9 ]; then
+    VAR=0
+  fi
+  COUNT=`expr $COUNT + 1`
+done
+------------------------------------------------
