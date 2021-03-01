@@ -1,33 +1,39 @@
 #!/bin/bash
 
-# AUTHOR : Robson Ferreira
-# TEAM   : DevOps  
+# AUTOR : Robson Ferreira
+# TIME  : DevOps  
 #------------------------------------------------------------
-# DESCRIPTION:
-# Check Disk Space 
+# BREVE DESCRIÇÃO:
+# Verifica a saúde do servidor, consultando:
+#   . Espaço em disco
+#   . Consumo de CPU
+#   . Consumo de memória
+#   . Informação da rede 
+#   . Processos em execução
 #
 #-------------------------------------------------------------
-# EXAMPLE:
-#    ./health_check.sh
+# EXEMPLO:
+#    ./verifica_servidor.sh
 #-------------------------------------------------------------
-# HISTORY:
-# v1.0 - 02/17/2020 - Robson Ferreira: Script created.    
+# HISTÓRICO DE MUDANÇAS:
+# v1.0 - 17/02/2020 - Robson Ferreira: Criação do script.
+# v1.1 - 01/03/2021 - Robson Ferreira: Melhoria nas funções.    
 #-------------------------------------------------------------
 
-#---| VARIABLES:
+#---| DEFINIÇÃO DAS VARIÁVEIS:
 
 DATE=$(date +%m/%d/%Y)
 
-#---| FUNCTIONS:
+#---| FUNÇÕES:
 
-check_disk()
+verifica_disco()
 {
-    echo "----------| CHECK DISK"
+    echo "----------| CONSUMO DO DISCO |------------------------------"
     echo " "
-    echo "Disk Size: $(df -h --total | tail -n1 | awk '{print $2}')" 
-    echo "Used:      $(df -h --total | tail -n1 | awk '{print $3}')"
-    echo "Available: $(df -h --total | tail -n1 | awk '{print $4}')"
-    echo "Use%:      $(df -h --total | tail -n1 | awk '{print $5}')"
+    echo "Tamanho: $(df -h --total | tail -n1 | awk '{print $2}')" 
+    echo "Usado:      $(df -h --total | tail -n1 | awk '{print $3}')"
+    echo "Disponível: $(df -h --total | tail -n1 | awk '{print $4}')"
+    echo "Uso%:      $(df -h --total | tail -n1 | awk '{print $5}')"
     echo ""
     echo LOGS:
     echo "/var:  $(df -h /var | tail -n1 | awk '{print $5}') used"
@@ -35,26 +41,26 @@ check_disk()
     echo ""
 }
 
-check_cpu()
+verifica_cpu()
 {
-    echo "----------| CHECK CPU"
+    echo "----------| CONSUMO DE CPU |------------------------------"
     echo " " 
     lscpu | head -n4 | tail -n1
     top | head -n1 | awk '{print $10" "$11" "$12" "$13" "$14 }'
     echo ""
 }
 
-check_memory()
+verifica_memoria()
 {
-    echo "----------| CHECK MEMORY"
+    echo "----------| CONSUMO DE MEMÓRIA |------------------------------"
     echo " "
     free -h
     echo ""
 }
 
-check_network()
+verifica_rede()
 {
-    echo "----------| CHECK NETWORK"
+    echo "----------| INFORMAÇÕES DA REDE |------------------------------"
     echo " "
     echo "Interface: "$(ifconfig | grep inet | head -n1)
     echo "DNS: " 
@@ -62,26 +68,26 @@ check_network()
     echo ""
 }
 
-check_process()
+verifica_processos()
 {
-    echo "----------| CHECK PROCESS"
+    echo "----------| PROCESSO EM EXECUÇÃO |------------------------------"
     echo " "
     ps aux | grep -i java | awk '{print "User:"$1 " PID:"$2" "$17}' | head -n1
     echo ""
     }
 
-#---| BODY OF SCRIPT:
+#---| CORPO DO SCRIPT:
 
 clear
-echo ""
-echo "DATE: " $DATE
-echo ""
-check_cpu
-check_memory
-check_disk
-check_process
-check_network
+echo " "
+echo "DATA DA VERIFICAÇÃO: " $DATE
+echo " "
+verifica_cpu
+verifica_memoria
+verifica_disco
+verifica_processos
+verifica_rede
 
-#---| FOOTER
+#---| RODAPÉ DO SCRIPT
 
 exit 0
